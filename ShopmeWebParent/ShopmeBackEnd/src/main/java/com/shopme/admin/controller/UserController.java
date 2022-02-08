@@ -3,10 +3,12 @@ package com.shopme.admin.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.shopme.admin.service.UserService;
@@ -41,5 +43,10 @@ public class UserController {
 		service.save(user);
 		redirectAttributes.addFlashAttribute("message", "The user has been saved successfully");
 		return "redirect:/users";
+	}
+	
+	@PostMapping("/users/check_email")
+	public @ResponseBody String checkDuplicateEmail(@Param("email") String email) {
+		return service.isEmailUnique(email) ? "OK" : "Duplicated";
 	}
 }
