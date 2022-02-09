@@ -13,4 +13,5 @@ public interface UserService {
 	public boolean isEmailUnique(Integer id,String email);
 	public User get(Integer id);
 	public void delete(Integer id)throws UserNotFoundException;
+	public void updateEnabledStatus(Integer id,boolean enabled);
 }

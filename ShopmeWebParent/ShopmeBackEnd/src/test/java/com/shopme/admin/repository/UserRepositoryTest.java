@@ -72,22 +72,29 @@ public class UserRepositoryTest {
 		User updatedUser = repo.save(user1);
 		assertThat(updatedUser.getId()).isEqualTo(2);
 	}
+
 	@Test
 	public void testDeleteUser() {
 		repo.deleteById(2);
 	}
-	
+
 	@Test
 	public void testGetUserByEmail() {
-		String email="anand@chess.com";
-		User user=repo.getUserByEmail(email);
+		String email = "anand@chess.com";
+		User user = repo.getUserByEmail(email);
 		assertThat(user).isNotNull();
 	}
-	
+
 	@Test
 	public void testCountById() {
-		Integer id=1;
-		Long countById=repo.countById(id);
+		Integer id = 1;
+		Long countById = repo.countById(id);
 		assertThat(countById).isNotNull().isGreaterThan(0);
+	}
+
+	@Test
+	public void testUpdateEnabledStatus() {
+		Integer id = 1;
+		repo.updateEnabledStatus(id, false);
 	}
 }
