@@ -13,7 +13,7 @@ import com.shopme.common.entity.Role;
 import com.shopme.common.entity.User;
 
 public class ShopmeUserDetails implements UserDetails {
-	
+
 	private User user;
 
 	public ShopmeUserDetails(User user) {
@@ -22,9 +22,9 @@ public class ShopmeUserDetails implements UserDetails {
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		Set<Role>roles=user.getRoles();
-		List<SimpleGrantedAuthority>authorities=new ArrayList();
-		for(Role role:roles) {
+		Set<Role> roles = user.getRoles();
+		List<SimpleGrantedAuthority> authorities = new ArrayList();
+		for (Role role : roles) {
 			authorities.add(new SimpleGrantedAuthority(role.getName()));
 		}
 		return authorities;
@@ -60,4 +60,7 @@ public class ShopmeUserDetails implements UserDetails {
 		return user.isEnabled();
 	}
 
+	public String getFullName() {
+		return user.getFirstName() + " " + user.getLastName();
+	}
 }
