@@ -14,8 +14,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+	
 	@Bean
-	public UserDetailsService userDetailService() {
+	public UserDetailsService userDetailsService() {
 		return new ShopmeUserDetailService();
 	}
 	@Bean
@@ -25,7 +26,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	public DaoAuthenticationProvider authenticationProvider() {
 		DaoAuthenticationProvider authProvider=new DaoAuthenticationProvider();
-		authProvider.setUserDetailsService(userDetailService());
+		authProvider.setUserDetailsService(userDetailsService());
 		authProvider.setPasswordEncoder(passwordEncoder());
 		return authProvider;
 	}
@@ -37,12 +38,20 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	}
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.authorizeRequests().anyRequest().authenticated()
-			.and().formLogin()
-				  .loginPage("/login")
-				  .usernameParameter("email")
-				  .permitAll()
-				  .and().logout().permitAll();
+		http.authorizeRequests()
+			.anyRequest().authenticated()
+				.and()
+					.formLogin()
+						.loginPage("/login")
+							.usernameParameter("email")
+							.permitAll()
+						.and()
+							.logout()
+							.permitAll()
+						.and()
+							.rememberMe()
+							.key("uniqueSecretKey")
+							.tokenValiditySeconds(7*24*60*60);
 	}
 
 	@Override
