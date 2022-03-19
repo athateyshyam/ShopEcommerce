@@ -3,6 +3,7 @@ package com.shopme.admin.service;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
+import org.springframework.data.repository.query.Param;
 
 import com.shopme.admin.exception.UserNotFoundException;
 import com.shopme.common.entity.Role;
@@ -17,4 +18,6 @@ public interface UserService {
 	public void delete(Integer id)throws UserNotFoundException;
 	public void updateEnabledStatus(Integer id,boolean enabled);
 	public Page<User>listByPage(int pageNum,String sortField,String sortDir,String keyword);
+	public User getUserByEmail(String email);
+	public User updateAccount(User userInForm);
 }
