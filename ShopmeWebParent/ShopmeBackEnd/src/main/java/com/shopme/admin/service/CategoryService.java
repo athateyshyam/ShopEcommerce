@@ -7,4 +7,5 @@ import com.shopme.common.entity.Category;
 public interface CategoryService {
 	public List<Category> findAll();
 	public List<Category>listCategoriesUsedInForm();
+	public Category save(Category category);
 }

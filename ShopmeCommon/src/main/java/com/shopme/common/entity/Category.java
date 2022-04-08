@@ -36,13 +36,19 @@ public class Category {
 		super();
 	}
 
+	public Category(Integer id, String name) {
+		super();
+		this.id = id;
+		this.name = name;
+	}
+
 	public Category(String name) {
 		this.name = name;
 		this.alias = name;
 		this.image = "default.png";
 	}
-	
-	public Category(String name,Category parent) {
+
+	public Category(String name, Category parent) {
 		this(name);
 		this.parent = parent;
 	}
