@@ -12,6 +12,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name = "category")
@@ -111,5 +112,24 @@ public class Category {
 	public void setChildren(Set<Category> children) {
 		this.children = children;
 	}
+	@Transient
+	public String getImagePath() {
+		return "/category-images/"+this.id+"/"+this.image;
+	}
 
+	public static Category copyAll(Category category) {
+		Category cat = new Category();
+		cat.setId(category.getId());
+		cat.setName(category.getName());
+		cat.setAlias(category.getAlias());
+		cat.setImage(category.getImage());
+		cat.setEnabled(category.isEnabled());
+		return cat;
+	}
+	
+	public static Category copyAll(Category category,String name) {
+		Category cat=Category.copyAll(category);
+		cat.setName(name);
+		return cat;
+	}
 }
