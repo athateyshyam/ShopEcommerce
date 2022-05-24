@@ -2,12 +2,14 @@ package com.shopme.admin.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.shopme.admin.exception.CategoryNotFoundException;
 import com.shopme.admin.repository.CategoryRepository;
 import com.shopme.admin.service.CategoryService;
 import com.shopme.common.entity.Category;
@@ -96,4 +98,12 @@ public class CategoryServiceImpl implements CategoryService {
 		return repository.save(category);
 	}
 
+	@Override
+	public Category get(Integer id) throws CategoryNotFoundException {
+		try {
+			return repository.findById(id).get();
+		} catch (NoSuchElementException ex) {
+			throw new CategoryNotFoundException("Could not find any category with ID " + id);
+		}
+	}
 }

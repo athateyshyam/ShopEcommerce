@@ -132,4 +132,11 @@ public class Category {
 		cat.setName(name);
 		return cat;
 	}
+	
+	@Transient
+	public String getCategoryImagePath() {
+		if (id == null || image == null)
+			return "/images/default-user.png";
+		return "/category-images/" + this.id + "/" + this.image;
+	}
 }

@@ -50,7 +50,9 @@
 						<td>[[${category.name}]]</td>
 						<td>[[${category.alias}]]</td>
 						<td>[[${category.enabled}]]</td>
-						<td>Edit | Delete</td>
+						<td>
+						<a th:href="@{'/category/edit/'+${category.id}}" title="Edit this category" class="fas fa-edit fa-2x icon-green">
+						</a> | Delete</td>
 					</tr>
 				</tbody>
 			</table>
