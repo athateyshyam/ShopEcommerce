@@ -32,6 +32,8 @@ public class Category {
 	private Category parent;
 	@OneToMany(mappedBy = "parent")
 	private Set<Category> children = new HashSet<Category>();
+	@Transient
+	private boolean hasChildren;
 
 	public Category() {
 		super();
@@ -120,6 +122,14 @@ public class Category {
 	public void setChildren(Set<Category> children) {
 		this.children = children;
 	}
+	
+	public boolean isHasChildren() {
+		return hasChildren;
+	}
+
+	public void setHasChildren(boolean hasChildren) {
+		this.hasChildren = hasChildren;
+	}
 
 	@Transient
 	public String getImagePath() {
@@ -135,6 +145,7 @@ public class Category {
 		cat.setAlias(category.getAlias());
 		cat.setImage(category.getImage());
 		cat.setEnabled(category.isEnabled());
+		cat.setHasChildren(category.getChildren().size()>0);
 		return cat;
 	}
 	

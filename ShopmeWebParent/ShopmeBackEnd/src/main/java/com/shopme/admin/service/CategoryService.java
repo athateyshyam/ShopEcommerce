@@ -12,4 +12,5 @@ public interface CategoryService {
 	public Category get(Integer id) throws CategoryNotFoundException;
 	public String checkUnique(Integer id,String name,String alias);
 	public void updateEnabledStatus(Integer id, boolean enabled);
+	public void delete(Integer id) throws CategoryNotFoundException;
 }

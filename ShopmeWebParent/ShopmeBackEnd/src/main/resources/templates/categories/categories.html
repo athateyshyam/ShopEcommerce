@@ -60,12 +60,28 @@
 						</td>
 						<td>
 						<a th:href="@{'/category/edit/'+${category.id}}" title="Edit this category" class="fas fa-edit fa-2x icon-green">
-						</a> | Delete</td>
+						</a> &nbsp;
+						<th:block th:if="${category.hasChildren==false}">
+						<a th:href="@{'/categories/delete/'+${category.id}}" th:entityId="${category.id}" title="Delete this category" class="fas fa-trash fa-2x icon-dark link-delete"></a>
+						</th:block>
+						</td>
 					</tr>
 				</tbody>
 			</table>
 		</div>
+		<div th:replace="modal_fragments::modal_dialog_delete"></div>
 		<div th:replace="fragments::footer"></div>
 	</div>
+	<script th:src="@{/js/common-list.js}"></script>
+	<script type="text/javascript">
+	moduleURL="[[@{/categories}]]";
+	$(document).ready(function(){
+		$(".link-delete").on("click",function(e){
+			e.preventDefault();
+			link=$(this);
+			showDeleteConfirmationModal(link,'category');
+		});
+	});
+	</script>
 </body>
 </html>

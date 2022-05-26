@@ -158,4 +158,13 @@ public class CategoryServiceImpl implements CategoryService {
 	public void updateEnabledStatus(Integer id, boolean enabled) {
 		repository.updateEnabledStatus(id, enabled);		
 	}
+
+	@Override
+	public void delete(Integer id) throws CategoryNotFoundException {
+		Long countById=repository.countById(id);
+		if(countById==null||countById==0) {
+			throw new CategoryNotFoundException("Could not find any category with ID " + id);
+		}
+		repository.deleteById(id);
+	}
 }
