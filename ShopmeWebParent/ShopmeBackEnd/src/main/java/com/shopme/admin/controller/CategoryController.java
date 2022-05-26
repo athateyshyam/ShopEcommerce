@@ -84,4 +84,13 @@ public class CategoryController {
 			@Param("alias") String alias) {
 		return service.checkUnique(id, name, alias);
 	}
+	
+	@GetMapping("/categories/{id}/enabled/{status}")
+	public String updateEnabledStatus(@PathVariable("id") Integer id,@PathVariable("status") boolean enabled,RedirectAttributes redirectAttributes) {
+		service.updateEnabledStatus(id, enabled);
+		String status=enabled?"enabled":"disabled";
+		String message="The category ID "+id+" has been "+status;
+		redirectAttributes.addFlashAttribute("message",message);
+		return "redirect:/categories";
+	}
 }

@@ -153,4 +153,9 @@ public class CategoryServiceImpl implements CategoryService {
 		sortedChildren.addAll(children);
 		return sortedChildren;
 	}
+
+	@Override
+	public void updateEnabledStatus(Integer id, boolean enabled) {
+		repository.updateEnabledStatus(id, enabled);		
+	}
 }
