@@ -10,4 +10,5 @@ public interface CategoryService {
 	public List<Category>listCategoriesUsedInForm();
 	public Category save(Category category);
 	public Category get(Integer id) throws CategoryNotFoundException;
+	public String checkUnique(Integer id,String name,String alias);
 }

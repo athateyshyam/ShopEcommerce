@@ -55,6 +55,14 @@ public class Category {
 	}
 
 	public Category(Integer id) {
+		this.id = id;
+	}
+
+	public Category(Integer id, String name, String alias) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.alias = alias;
 	}
 
 	public Integer getId() {
@@ -112,9 +120,12 @@ public class Category {
 	public void setChildren(Set<Category> children) {
 		this.children = children;
 	}
+
 	@Transient
 	public String getImagePath() {
-		return "/category-images/"+this.id+"/"+this.image;
+		if (id == null || image == null)
+			return "/images/image-thumbnail.png";
+		return "/category-images/" + this.id + "/" + this.image;
 	}
 
 	public static Category copyAll(Category category) {
@@ -131,12 +142,5 @@ public class Category {
 		Category cat=Category.copyAll(category);
 		cat.setName(name);
 		return cat;
-	}
-	
-	@Transient
-	public String getCategoryImagePath() {
-		if (id == null || image == null)
-			return "/images/default-user.png";
-		return "/category-images/" + this.id + "/" + this.image;
 	}
 }

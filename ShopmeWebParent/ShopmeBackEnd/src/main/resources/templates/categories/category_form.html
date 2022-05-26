@@ -8,7 +8,8 @@
 			<h2>Manage Categories | [[${pageTitle}]]</h2>
 		</div>
 		<form th:action="@{/categories/save}" method="post"
-			style="max-width: 700px; margin: 0 auto;" th:object="${category}" enctype="multipart/form-data">
+			style="max-width: 700px; margin: 0 auto;" th:object="${category}" enctype="multipart/form-data"
+			onsubmit=" return checkUnique(this)">
 			<input type="hidden" th:field="*{id}"/>
 			<div class="border border-secondary rounded p-3">
 				<div class="form-group row">
@@ -40,9 +41,9 @@
 					<label class="col-sm-4 col-form-label">Image</label>
 					<div class="col-sm-8">
 					<input type="hidden" th:field="*{image}"/>
-						<input type="file" id="fileImage" name="fileImage" accept="image/png,image/jpeg" th:required="${category.categoryImagePath==null}" class="mb-2"/>
+						<input type="file" id="fileImage" name="fileImage" accept="image/png,image/jpeg" th:required="${category.imagePath==null}" class="mb-2"/>
 						<div class="mt-2">
-						<img id="thumbnail" alt="Image preview" th:src="@{${category.categoryImagePath}}" class="img-fluid"/>
+						<img id="thumbnail" alt="Image preview" th:src="@{${category.imagePath}}" class="img-fluid"/>
 						</div>
 					</div>
 				</div>
@@ -59,27 +60,40 @@
 				</div>
 			</div>
 		</form>
-		<div class="modal fade text-center" id="modalDialog">
-			<div class="modal-dialog">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h4 class="modal-title" id="modalTitle">Warning</h4>
-						<button type="button" class="close" data-dismiss="modal">&times;</button>
-					</div>
-					<div class="modal-body">
-						<span id="modalBody"></span>
-					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-					</div>
-				</div>
-			</div>
-		</div>
+		<div th:replace="modal_fragments::modal_dialog"></div>
 		<div th:replace="fragments::footer"></div>
 	</div>
 	<script type="text/javascript">	
 		moduleURL="[[@{/categories}]]"
-		
+		function checkUnique(form){
+			catId=$("#id").val();
+			catName=$("#name").val();
+			catAlias=$("#alias").val();
+			
+			csrfValue=$("input[name='_csrf']").val();
+			
+			url="[[@{/categories/check_unique}]]";
+			
+			params={id:catId,name:catName,alias:catAlias,_csrf:csrfValue};
+			
+			$.post(url,params,function(response){
+				if(response=="OK"){
+					form.submit();
+				}else if(response=="Duplicate"){
+					showWarningModal("There is another category having same name: "+catName);
+				}else if(response =="DuplicateAlias"){
+					showWarningModal("There is another category having same alias: "+catAlias);
+				}else{
+					showErrorModal("Unknown response from server");
+				}
+				//alert(response);
+			}).fail(function(){
+				//alert('Failed!!');
+				showErrorModal("Could not connect to server");
+			});
+			
+			return false;
+		}
 	</script>
 	<script th:src="@{/js/common_form.js}"></script>
 </body>

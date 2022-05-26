@@ -106,4 +106,27 @@ public class CategoryServiceImpl implements CategoryService {
 			throw new CategoryNotFoundException("Could not find any category with ID " + id);
 		}
 	}
+
+	@Override
+	public String checkUnique(Integer id, String name, String alias) {
+		boolean isCreatingNew=(id==null || id==0);
+		Category category=repository.findByName(name);
+		if(isCreatingNew) {
+			if(category!=null) {
+				return "Duplicate";
+			}else {
+				Category categoryByAlias=repository.findByAlias(alias);
+				if(categoryByAlias!=null)
+					return "DuplicateAlias";
+			}
+		}else {
+			if(category!=null && category.getId()!=id) {
+				return "Duplicate";
+			}
+			Category categoryByAlias=repository.findByAlias(alias);
+			if(categoryByAlias!=null && categoryByAlias.getId()!=id)
+				return "DuplicateAlias";
+		}
+		return "OK";
+	}
 }
